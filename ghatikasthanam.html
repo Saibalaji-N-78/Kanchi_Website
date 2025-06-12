@@ -1,0 +1,647 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ghatikasthanam - The Ancient Seat of Learning</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            padding: 1rem 0;
+        }
+        
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #8B4513;
+            text-decoration: none;
+        }
+        
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+        
+        .nav-links a {
+            text-decoration: none;
+            color: #333;
+            font-weight: 500;
+            transition: color 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .nav-links a:hover {
+            color: #8B4513;
+        }
+        
+        .back-btn {
+            background: linear-gradient(45deg, #8B4513, #CD853F);
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: transform 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+        
+        .back-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        .hero {
+            margin-top: 80px;
+            padding: 4rem 0;
+            text-align: center;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(5px);
+            border-radius: 20px;
+            margin: 100px 20px 2rem 20px;
+        }
+        
+        .hero h1 {
+            font-size: 3.5rem;
+            color: white;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            animation: fadeInUp 1s ease;
+        }
+        
+        .hero p {
+            font-size: 1.3rem;
+            color: #f0f0f0;
+            margin-bottom: 2rem;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+            animation: fadeInUp 1s ease 0.3s both;
+        }
+        
+        .content-section {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 3rem;
+            margin: 2rem 20px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+        
+        .content-section h2 {
+            color: #8B4513;
+            margin-bottom: 2rem;
+            font-size: 2.5rem;
+            text-align: center;
+        }
+        
+        .content-section h3 {
+            color: #8B4513;
+            margin: 2rem 0 1rem 0;
+            font-size: 1.8rem;
+        }
+        
+        .content-text {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: #555;
+            margin-bottom: 2rem;
+        }
+        
+        .highlight-box {
+            background: linear-gradient(135deg, #f7f3e9 0%, #e8dcc6 100%);
+            padding: 2rem;
+            border-radius: 10px;
+            border-left: 5px solid #8B4513;
+            margin: 2rem 0;
+        }
+        
+        .highlight-box h4 {
+            color: #8B4513;
+            margin-bottom: 1rem;
+            font-size: 1.3rem;
+        }
+        
+        .timeline {
+            position: relative;
+            margin: 2rem 0;
+        }
+        
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 3px;
+            height: 100%;
+            background: linear-gradient(to bottom, #8B4513, #CD853F);
+        }
+        
+        .timeline-item {
+            position: relative;
+            margin: 2rem 0;
+            padding: 1.5rem;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            width: 45%;
+        }
+        
+        .timeline-item:nth-child(odd) {
+            left: 0;
+        }
+        
+        .timeline-item:nth-child(even) {
+            left: 55%;
+        }
+        
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            top: 20px;
+            width: 15px;
+            height: 15px;
+            background: #8B4513;
+            border-radius: 50%;
+        }
+        
+        .timeline-item:nth-child(odd)::before {
+            right: -30px;
+        }
+        
+        .timeline-item:nth-child(even)::before {
+            left: -30px;
+        }
+        
+        .timeline-date {
+            color: #8B4513;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+        
+        .scsvmv-section {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 3rem;
+            margin: 2rem 20px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+        
+        .scsvmv-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            align-items: center;
+            margin-top: 2rem;
+        }
+        
+        .library-image {
+            width: 100%;
+            height: 400px;
+            background: linear-gradient(135deg, rgba(139, 69, 19, 0.8), rgba(205, 133, 63, 0.8)),
+                        url('https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80') center/cover;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.2rem;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .library-image::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.3);
+            z-index: 1;
+        }
+        
+        .library-info {
+            position: relative;
+            z-index: 2;
+            background: rgba(0, 0, 0, 0.7);
+            padding: 2rem;
+            border-radius: 10px;
+            backdrop-filter: blur(5px);
+        }
+        
+        .library-info h3 {
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+        }
+        
+        .library-info p {
+            margin-bottom: 0.5rem;
+            font-size: 1.1rem;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+        
+        .stat-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            border-top: 3px solid #8B4513;
+        }
+        
+        .stat-number {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #8B4513;
+            margin-bottom: 0.5rem;
+        }
+        
+        .stat-label {
+            color: #666;
+            font-size: 0.9rem;
+        }
+        
+        .importance-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+        
+        .importance-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+        
+        .importance-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .importance-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .importance-card h4 {
+            color: #8B4513;
+            margin-bottom: 1rem;
+        }
+        
+        footer {
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            text-align: center;
+            padding: 2rem;
+            margin-top: 3rem;
+        }
+        
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .nav-links {
+                display: none;
+            }
+            
+            .scsvmv-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .timeline::before {
+                left: 20px;
+            }
+            
+            .timeline-item {
+                width: calc(100% - 40px);
+                left: 40px !important;
+            }
+            
+            .timeline-item::before {
+                left: -30px !important;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="container">
+            <a href="#" class="logo">📚 Ghatikasthanam</a>
+            <ul class="nav-links">
+                <li><a href="#history">History</a></li>
+                <li><a href="#importance">Importance</a></li>
+                <li><a href="#scsvmv">SCSVMV University</a></li>
+                <li><a href="#legacy">Legacy</a></li>
+            </ul>
+            <a href="index.html" class="back-btn">← Back to Home</a>
+        </nav>
+    </header>
+
+    <main class="container">
+        <section class="hero">
+            <h1>Ghatikasthanam</h1>
+            <p>The Ancient Seat of Learning - Where Knowledge Flourished for Over Two Millennia</p>
+        </section>
+
+        <section id="history" class="content-section">
+            <h2>The Historical Significance of Kanchipuram</h2>
+            <div class="content-text">
+                <p>Kanchi has many historical monuments and temples considered to be the seat of education in ancient India. For this, it was also known as the ghatikasthanam, or "place of learning". The term "Ghatikasthanam" literally means "the place of learning" in Sanskrit, and Kanchipuram has proudly held this title for over two thousand years.</p>
+                
+                <p>Between the first and fifth centuries, the city, also known as Ghatikasthanam (place of learning), was a religious center of advanced education for Jainism and Buddhism. The city as an educational hub is mentioned in various inscriptions like the Kadamba copper plate of the fifth century. And it was not just a centre for Vedic education but also an active Jain and Buddhist centre of advanced education from the 1st to the 5th centuries.</p>
+            </div>
+
+            <div class="highlight-box">
+                <h4>🏛️ Etymology and Meaning</h4>
+                <p><strong>Ghatikasthanam</strong> is derived from the Sanskrit word "Ghatika" (meaning a period of time equivalent to 24 minutes) and "Sthanam" (meaning place). It refers to a place where systematic learning took place in structured time periods, making it one of the world's earliest organized educational institutions.</p>
+            </div>
+
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-date">2nd Century BCE</div>
+                    <h4>Early References</h4>
+                    <p>Kanchipuram finds mention in Patanjali's Mahabhashya, establishing its ancient heritage and scholarly importance.</p>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-date">1st - 5th Century CE</div>
+                    <h4>Multi-Religious Learning Hub</h4>
+                    <p>The city became a major center for advanced education in Buddhism, Jainism, and Vedic studies, attracting scholars from across Asia.</p>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-date">5th - 8th Century CE</div>
+                    <h4>Pallava Patronage</h4>
+                    <p>Under the Pallava dynasty, Kanchipuram reached its golden age as a center of learning, art, and architecture.</p>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-date">8th - 13th Century CE</div>
+                    <h4>Philosophical Renaissance</h4>
+                    <p>Great philosophers like Adi Sankara and Ramanuja studied and taught here, making it a center of Hindu philosophical thought.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="importance" class="content-section">
+            <h2>Why Kanchipuram as Ghatikasthanam?</h2>
+            
+            <div class="importance-grid">
+                <div class="importance-card">
+                    <div class="importance-icon">🕉️</div>
+                    <h4>Spiritual Significance</h4>
+                    <p>As one of the seven sacred cities (Sapta Puri) of Hinduism, Kanchipuram naturally became a center where spiritual learning and philosophical discourse flourished.</p>
+                </div>
+                
+                <div class="importance-card">
+                    <div class="importance-icon">🏛️</div>
+                    <h4>Architectural Marvel</h4>
+                    <p>The city's magnificent temples served as both places of worship and centers of learning, where art, architecture, and philosophy were taught together.</p>
+                </div>
+                
+                <div class="importance-card">
+                    <div class="importance-icon">🌏</div>
+                    <h4>Cultural Confluence</h4>
+                    <p>The unique position of hosting multiple religious traditions - Hinduism, Buddhism, and Jainism - made it a cosmopolitan center of learning.</p>
+                </div>
+                
+                <div class="importance-card">
+                    <div class="importance-icon">👨‍🏫</div>
+                    <h4>Scholarly Tradition</h4>
+                    <p>Generations of scholars, philosophers, and teachers established a continuous tradition of learning that has persisted for over 2000 years.</p>
+                </div>
+                
+                <div class="importance-card">
+                    <div class="importance-icon">📜</div>
+                    <h4>Literary Heritage</h4>
+                    <p>Ancient Tamil and Sanskrit texts were composed, preserved, and transmitted here, contributing to India's rich literary tradition.</p>
+                </div>
+                
+                <div class="importance-card">
+                    <div class="importance-icon">🌅</div>
+                    <h4>Continuous Legacy</h4>
+                    <p>The tradition continues today with modern institutions like SCSVMV University, maintaining the city's reputation as a center of learning.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="scsvmv" class="scsvmv-section">
+            <h2>SCSVMV University: Modern Continuation of Ancient Tradition</h2>
+            
+            <div class="scsvmv-grid">
+                <div>
+                    <h3>Sri Chandrasekharendra Saraswathi Viswa Mahavidyalaya</h3>
+                    <p class="content-text">Established in 1993, SCSVMV University stands as a modern embodiment of Kanchipuram's ancient role as Ghatikasthanam. The university continues the city's millennium-old tradition of being a center of learning and knowledge dissemination.</p>
+                    
+                    <div class="highlight-box">
+                        <h4>🎯 Mission & Vision</h4>
+                        <p>Following the footsteps of the ancient Ghatikasthanam tradition, SCSVMV University aims to provide quality higher education coupled with Indian value systems, nurturing students to become leaders while preserving our cultural heritage.</p>
+                    </div>
+                </div>
+                
+                <div class="library-image">
+                    <div class="library-info">
+                        <h3>🏛️ SCSVMV International Library</h3>
+                        <p>A Modern Temple of Knowledge</p>
+                        <p>Sri Jayendra Saraswathi Diamond Jubilee Mahal</p>
+                    </div>
+                </div>
+            </div>
+
+            <h3>The Sri Chandrasekharendra Saraswathi International Library</h3>
+            <p class="content-text">The university has the Sri Chandrasekharendra Saraswathi International Library, established in 1995, housed in Sri Jayendra Saraswathi Diamond Jubilee Mahal. It is spread across an area of 7,500 square feet (700 m2) with three floors. Its library boasts a collection of 2 lakh books, 1,000 tapes and CD-ROMs, and access to 100 national and international journals.</p>
+
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-number">2,00,000+</div>
+                    <div class="stat-label">Books in Collection</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">1,000+</div>
+                    <div class="stat-label">Tapes & CD-ROMs</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">100+</div>
+                    <div class="stat-label">National & International Journals</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">7,500</div>
+                    <div class="stat-label">Square Feet Area</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">3</div>
+                    <div class="stat-label">Floors</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">1995</div>
+                    <div class="stat-label">Year Established</div>
+                </div>
+            </div>
+
+            <div class="highlight-box">
+                <h4>🌟 Special Features of the International Library</h4>
+                <ul style="list-style: none; padding-left: 0;">
+                    <li>📚 Housed in the magnificent Sri Jayendra Saraswathi Diamond Jubilee Mahal</li>
+                    <li>🌐 Access to digital resources and online databases</li>
+                    <li>🔍 Advanced cataloging and search systems</li>
+                    <li>👥 Dedicated reading halls for research scholars</li>
+                    <li>💻 Computer terminals with internet access</li>
+                    <li>📖 Rare manuscripts and ancient texts collection</li>
+                    <li>🏛️ Architectural beauty that inspires learning</li>
+                </ul>
+            </div>
+        </section>
+
+        <section id="legacy" class="content-section">
+            <h2>The Continuing Legacy</h2>
+            <div class="content-text">
+                <p>Today, Kanchipuram continues its role as Ghatikasthanam through institutions like SCSVMV University. The Sri Chandrasekharendra Saraswathi International Library stands as a testament to this continuing tradition, serving as a modern repository of knowledge that bridges ancient wisdom with contemporary learning.</p>
+                
+                <p>Just as ancient scholars traveled from distant lands to study in the original Ghatikasthanam, today's students and researchers come to SCSVMV University to access its extensive library resources and academic programs. The library's collection of over 200,000 books, along with digital resources and international journals, ensures that the tradition of learning continues to thrive in the 21st century.</p>
+                
+                <p>The university offers 53 courses across 9 streams, maintaining the multi-disciplinary approach that made ancient Kanchipuram famous. From engineering and management to arts and sciences, the institution embodies the holistic educational philosophy that has made Kanchipuram synonymous with learning for over two millennia.</p>
+            </div>
+
+            <div class="highlight-box">
+                <h4>🔮 Vision for the Future</h4>
+                <p>As we move forward, Kanchipuram's role as Ghatikasthanam evolves but remains constant. The Sri Chandrasekharendra Saraswathi International Library and SCSVMV University continue to adapt to modern educational needs while preserving the ancient tradition of comprehensive learning that has made this city a beacon of knowledge for over 2000 years.</p>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 Ghatikasthanam - Kanchipuram. Preserving the ancient tradition of learning for future generations.</p>
+    </footer>
+
+    <script>
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Animate elements on scroll
+        function animateOnScroll() {
+            const elements = document.querySelectorAll('.content-section, .importance-card, .stat-card');
+            elements.forEach(element => {
+                const elementTop = element.getBoundingClientRect().top;
+                const elementVisible = 150;
+                
+                if (elementTop < window.innerHeight - elementVisible) {
+                    element.style.opacity = '1';
+                    element.style.transform = 'translateY(0)';
+                }
+            });
+        }
+
+        // Initialize animations
+        window.addEventListener('scroll', animateOnScroll);
+        window.addEventListener('load', animateOnScroll);
+
+        // Add initial animation styles
+        document.addEventListener('DOMContentLoaded', function() {
+            const animatedElements = document.querySelectorAll('.content-section, .importance-card, .stat-card');
+            animatedElements.forEach((element, index) => {
+                element.style.opacity = '0';
+                element.style.transform = 'translateY(20px)';
+                element.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            });
+        });
+
+        // Timeline animation
+        function animateTimeline() {
+            const timelineItems = document.querySelectorAll('.timeline-item');
+            timelineItems.forEach((item, index) => {
+                const rect = item.getBoundingClientRect();
+                if (rect.top < window.innerHeight && rect.bottom > 0) {
+                    item.style.opacity = '1';
+                    item.style.transform = 'translateX(0)';
+                }
+            });
+        }
+
+        // Initialize timeline animations
+        document.addEventListener('DOMContentLoaded', function() {
+            const timelineItems = document.querySelectorAll('.timeline-item');
+            timelineItems.forEach((item, index) => {
+                item.style.opacity = '0';
+                item.style.transition = 'opacity 0.8s ease, transform 0.8s ease';
+                
+                if (index % 2 === 0) {
+                    item.style.transform = 'translateX(-50px)';
+                } else {
+                    item.style.transform = 'translateX(50px)';
+                }
+            });
+        });
+
+        window.addEventListener('scroll', animateTimeline);
+        window.addEventListener('load', animateTimeline);
+    </script>
+</body>
+</html>
