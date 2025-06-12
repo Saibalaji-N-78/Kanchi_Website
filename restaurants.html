@@ -1,0 +1,647 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Restaurants & Accommodation - Kanchipuram</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Georgia', serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #ffeaa7 0%, #fab1a0 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            background: linear-gradient(135deg, #d63031, #74b9ff);
+            color: white;
+            padding: 2rem 0;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            margin-bottom: 2rem;
+        }
+
+        header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .nav-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-top: 1rem;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 25px;
+            background: rgba(255,255,255,0.2);
+            transition: all 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            background: rgba(255,255,255,0.3);
+            transform: translateY(-2px);
+        }
+
+        .search-section {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+        }
+
+        .search-filters {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .filter-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .filter-group label {
+            margin-bottom: 0.5rem;
+            font-weight: bold;
+            color: #d63031;
+        }
+
+        .filter-group select, .filter-group input {
+            padding: 0.5rem;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 1rem;
+        }
+
+        .filter-group select:focus, .filter-group input:focus {
+            outline: none;
+            border-color: #d63031;
+        }
+
+        .search-btn {
+            background: linear-gradient(135deg, #d63031, #74b9ff);
+            color: white;
+            border: none;
+            padding: 0.75rem 2rem;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            margin-top: 1rem;
+        }
+
+        .search-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+
+        .section-title {
+            font-size: 2rem;
+            color: #d63031;
+            margin-bottom: 1.5rem;
+            text-align: center;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+        }
+
+        .places-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .place-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .place-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+        }
+
+        .place-image {
+            height: 200px;
+            background: linear-gradient(135deg, #74b9ff, #0984e3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
+
+        .place-content {
+            padding: 1.5rem;
+        }
+
+        .place-title {
+            font-size: 1.3rem;
+            color: #d63031;
+            margin-bottom: 0.5rem;
+        }
+
+        .place-type {
+            background: #74b9ff;
+            color: white;
+            padding: 0.3rem 0.8rem;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            display: inline-block;
+            margin-bottom: 1rem;
+        }
+
+        .place-details {
+            margin-bottom: 1rem;
+        }
+
+        .place-details p {
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+        }
+
+        .rating {
+            color: #f39c12;
+            font-weight: bold;
+        }
+
+        .distance {
+            color: #27ae60;
+            font-weight: bold;
+        }
+
+        .speciality {
+            background: #ffeaa7;
+            padding: 0.5rem;
+            border-radius: 8px;
+            margin: 0.5rem 0;
+            font-style: italic;
+        }
+
+        .contact-info {
+            background: #f8f9fa;
+            padding: 1rem;
+            border-radius: 8px;
+            margin-top: 1rem;
+        }
+
+        .contact-info h4 {
+            color: #d63031;
+            margin-bottom: 0.5rem;
+        }
+
+        .amenities {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+
+        .amenity {
+            background: #ddd;
+            padding: 0.3rem 0.6rem;
+            border-radius: 12px;
+            font-size: 0.8rem;
+        }
+
+        .book-btn {
+            background: #27ae60;
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+            width: 100%;
+            margin-top: 1rem;
+        }
+
+        .book-btn:hover {
+            background: #219a52;
+            transform: translateY(-1px);
+        }
+
+        .location-btn {
+            background: #e74c3c;
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+            margin-top: 0.5rem;
+            width: 100%;
+        }
+
+        .location-btn:hover {
+            background: #c0392b;
+        }
+
+        .price-range {
+            color: #e74c3c;
+            font-weight: bold;
+            font-size: 1.1rem;
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .search-filters {
+                grid-template-columns: 1fr;
+            }
+            
+            .places-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>🍽️ Dine & Stay in Kanchipuram</h1>
+            <p>Savor the flavors and find comfort in the temple city</p>
+            <div class="nav-links">
+                <a href="index.html">🏠 Home</a>
+                <a href="temples.html">🏛️ Temples</a>
+                <a href="restaurants.html">🍽️ Restaurants</a>
+                <a href="trip-planner.html">📋 Trip Planner</a>
+                <a href="login.html">👤 Login</a>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="search-section">
+            <h2 style="text-align: center; color: #d63031; margin-bottom: 1rem;">🔍 Find Your Perfect Dining & Stay</h2>
+            <div class="search-filters">
+                <div class="filter-group">
+                    <label for="type">Type:</label>
+                    <select id="type">
+                        <option value="">All</option>
+                        <option value="restaurant">Restaurants</option>
+                        <option value="hotel">Hotels</option>
+                        <option value="lodge">Lodges</option>
+                        <option value="cafe">Cafes</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label for="cuisine">Cuisine/Category:</label>
+                    <select id="cuisine">
+                        <option value="">All</option>
+                        <option value="south-indian">South Indian</option>
+                        <option value="vegetarian">Vegetarian</option>
+                        <option value="traditional">Traditional</option>
+                        <option value="modern">Modern</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label for="budget">Budget Range:</label>
+                    <select id="budget">
+                        <option value="">All</option>
+                        <option value="budget">Budget (₹500-1500)</option>
+                        <option value="mid-range">Mid-range (₹1500-3000)</option>
+                        <option value="luxury">Luxury (₹3000+)</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label for="distance">Distance from Temples:</label>
+                    <select id="distance">
+                        <option value="">All</option>
+                        <option value="0-1">0-1 km</option>
+                        <option value="1-3">1-3 km</option>
+                        <option value="3-5">3-5 km</option>
+                    </select>
+                </div>
+            </div>
+            <button class="search-btn" onclick="filterPlaces()">Search</button>
+        </div>
+
+        <section>
+            <h2 class="section-title">🍽️ Restaurants & Cafes</h2>
+            <div class="places-grid" id="restaurants-grid">
+                <!-- Restaurant cards will be populated by JavaScript -->
+            </div>
+        </section>
+
+        <section>
+            <h2 class="section-title">🏨 Hotels & Accommodation</h2>
+            <div class="places-grid" id="hotels-grid">
+                <!-- Hotel cards will be populated by JavaScript -->
+            </div>
+        </section>
+    </div>
+
+    <script>
+        const restaurants = [
+            {
+                name: "Saravana Bhavan",
+                type: "restaurant",
+                cuisine: "south-indian",
+                rating: 4.5,
+                distance: "0.5 km from Ekambareswarar Temple",
+                speciality: "Famous for authentic South Indian breakfast and traditional meals",
+                priceRange: "₹200-500 per person",
+                location: { lat: 12.8385, lng: 79.7036 },
+                contact: "+91 44 2722 3456",
+                timing: "6:00 AM - 10:00 PM",
+                budget: "budget",
+                distanceKm: "0-1",
+                amenities: ["AC", "Family Friendly", "Parking", "Takeaway"]
+            },
+            {
+                name: "Hotel Babai",
+                type: "restaurant",
+                cuisine: "vegetarian",
+                rating: 4.2,
+                distance: "1.2 km from Kailasanathar Temple",
+                speciality: "Traditional vegetarian meals served on banana leaves",
+                priceRange: "₹150-400 per person",
+                location: { lat: 12.8421, lng: 79.7001 },
+                contact: "+91 44 2722 4567",
+                timing: "11:00 AM - 9:00 PM",
+                budget: "budget",
+                distanceKm: "1-3",
+                amenities: ["Traditional Seating", "Pure Veg", "Home Delivery"]
+            },
+            {
+                name: "Dakshin Restaurant",
+                type: "restaurant",
+                cuisine: "traditional",
+                rating: 4.7,
+                distance: "2.1 km from Varadharaja Perumal Temple",
+                speciality: "Authentic Chettinad cuisine and traditional Tamil dishes",
+                priceRange: "₹400-800 per person",
+                location: { lat: 12.8456, lng: 79.7123 },
+                contact: "+91 44 2722 5678",
+                timing: "12:00 PM - 3:00 PM, 7:00 PM - 11:00 PM",
+                budget: "mid-range",
+                distanceKm: "1-3",
+                amenities: ["AC", "Fine Dining", "Live Music", "Valet Parking"]
+            },
+            {
+                name: "Cafe Coffee Day",
+                type: "cafe",
+                cuisine: "modern",
+                rating: 4.0,
+                distance: "0.8 km from Kamakshi Amman Temple",
+                speciality: "Coffee, snacks, and light meals in a modern setting",
+                priceRange: "₹100-300 per person",
+                location: { lat: 12.8401, lng: 79.7089 },
+                contact: "+91 44 2722 6789",
+                timing: "8:00 AM - 11:00 PM",
+                budget: "budget",
+                distanceKm: "0-1",
+                amenities: ["WiFi", "AC", "Outdoor Seating", "Coffee Varieties"]
+            },
+            {
+                name: "Murugan Idli Shop",
+                type: "restaurant",
+                cuisine: "south-indian",
+                rating: 4.6,
+                distance: "1.5 km from Ekambareswarar Temple",
+                speciality: "World-famous soft idlis and variety of chutneys",
+                priceRange: "₹100-250 per person",
+                location: { lat: 12.8378, lng: 79.7054 },
+                contact: "+91 44 2722 7890",
+                timing: "6:30 AM - 11:00 PM",
+                budget: "budget",
+                distanceKm: "1-3",
+                amenities: ["Quick Service", "Takeaway", "Multiple Branches", "Hygienic"]
+            }
+        ];
+
+        const hotels = [
+            {
+                name: "Hotel Pandian",
+                type: "hotel",
+                category: "mid-range",
+                rating: 4.3,
+                distance: "1.0 km from Ekambareswarar Temple",
+                speciality: "Comfortable stay with traditional hospitality",
+                priceRange: "₹2,000-3,500 per night",
+                location: { lat: 12.8392, lng: 79.7045 },
+                contact: "+91 44 2722 1234",
+                rooms: "45 rooms available",
+                budget: "mid-range",
+                distanceKm: "0-1",
+                amenities: ["AC Rooms", "Restaurant", "Room Service", "Parking", "WiFi", "Travel Desk"]
+            },
+            {
+                name: "GRT Regency",
+                type: "hotel",
+                category: "luxury",
+                rating: 4.8,
+                distance: "2.5 km from Temple Complex",
+                speciality: "Luxury accommodation with modern amenities",
+                priceRange: "₹4,500-8,000 per night",
+                location: { lat: 12.8456, lng: 79.7156 },
+                contact: "+91 44 2722 2345",
+                rooms: "78 rooms and suites",
+                budget: "luxury",
+                distanceKm: "1-3",
+                amenities: ["Swimming Pool", "Spa", "Gym", "Multi-cuisine Restaurant", "Banquet Hall", "Business Center"]
+            },
+            {
+                name: "Vijaya Lodge",
+                type: "lodge",
+                category: "budget",
+                rating: 3.8,
+                distance: "0.3 km from Kailasanathar Temple",
+                speciality: "Budget-friendly accommodation for pilgrims",
+                priceRange: "₹800-1,500 per night",
+                location: { lat: 12.8425, lng: 79.6998 },
+                contact: "+91 44 2722 3456",
+                rooms: "32 rooms",
+                budget: "budget",
+                distanceKm: "0-1",
+                amenities: ["Clean Rooms", "24/7 Reception", "Nearby Temples", "Basic Amenities"]
+            },
+            {
+                name: "TTDC Hotel Tamil Nadu",
+                type: "hotel",
+                category: "mid-range",
+                rating: 4.1,
+                distance: "1.8 km from Varadharaja Perumal Temple",
+                speciality: "Government-run hotel with reliable service",
+                priceRange: "₹1,800-2,800 per night",
+                location: { lat: 12.8445, lng: 79.7134 },
+                contact: "+91 44 2722 4567",
+                rooms: "40 rooms",
+                budget: "mid-range",
+                distanceKm: "1-3",
+                amenities: ["Restaurant", "AC Rooms", "Parking", "Tour Packages", "Clean Premises"]
+            },
+            {
+                name: "Sri Lakshmi Residency",
+                type: "hotel",
+                category: "budget",
+                rating: 4.0,
+                distance: "0.7 km from Kamakshi Amman Temple",
+                speciality: "Family-friendly budget hotel with good service",
+                priceRange: "₹1,200-2,200 per night",
+                location: { lat: 12.8398, lng: 79.7078 },
+                contact: "+91 44 2722 5678",
+                rooms: "28 rooms",
+                budget: "budget",
+                distanceKm: "0-1",
+                amenities: ["Family Rooms", "Room Service", "Parking", "Nearby Restaurants", "Clean Rooms"]
+            },
+            {
+                name: "Kanchipuram Residency",
+                type: "hotel",
+                category: "luxury",
+                rating: 4.6,
+                distance: "3.2 km from Temple Complex",
+                speciality: "Premium stay with excellent hospitality",
+                priceRange: "₹3,800-6,500 per night",
+                location: { lat: 12.8467, lng: 79.7189 },
+                contact: "+91 44 2722 6789",
+                rooms: "52 rooms and suites",
+                budget: "luxury",
+                distanceKm: "3-5",
+                amenities: ["Luxury Rooms", "Multi-cuisine Restaurant", "Conference Hall", "Spa Services", "Concierge"]
+            }
+        ];
+
+        function createRestaurantCard(restaurant) {
+            return `
+                <div class="place-card" data-type="${restaurant.type}" data-cuisine="${restaurant.cuisine}" data-budget="${restaurant.budget}" data-distance="${restaurant.distanceKm}">
+                    <div class="place-image">🍽️ ${restaurant.name}</div>
+                    <div class="place-content">
+                        <h3 class="place-title">${restaurant.name}</h3>
+                        <span class="place-type">${restaurant.type.charAt(0).toUpperCase() + restaurant.type.slice(1)}</span>
+                        <div class="place-details">
+                            <p><span class="rating">⭐ ${restaurant.rating}/5</span></p>
+                            <p><span class="distance">📍 ${restaurant.distance}</span></p>
+                            <p><span class="price-range">${restaurant.priceRange}</span></p>
+                            <p><strong>Cuisine:</strong> ${restaurant.cuisine.replace('-', ' ').replace(/\b\w/g, l => l.toUpperCase())}</p>
+                            <p><strong>Timing:</strong> ${restaurant.timing}</p>
+                        </div>
+                        <div class="speciality">
+                            <strong>Speciality:</strong> ${restaurant.speciality}
+                        </div>
+                        <div class="amenities">
+                            ${restaurant.amenities.map(amenity => `<span class="amenity">${amenity}</span>`).join('')}
+                        </div>
+                        <div class="contact-info">
+                            <h4>Contact Information</h4>
+                            <p><strong>Phone:</strong> ${restaurant.contact}</p>
+                        </div>
+                        <button class="book-btn" onclick="bookTable('${restaurant.name}')">Book Table</button>
+                        <button class="location-btn" onclick="showLocation(${restaurant.location.lat}, ${restaurant.location.lng}, '${restaurant.name}')">View Location</button>
+                    </div>
+                </div>
+            `;
+        }
+
+        function createHotelCard(hotel) {
+            return `
+                <div class="place-card" data-type="${hotel.type}" data-category="${hotel.category}" data-budget="${hotel.budget}" data-distance="${hotel.distanceKm}">
+                    <div class="place-image">🏨 ${hotel.name}</div>
+                    <div class="place-content">
+                        <h3 class="place-title">${hotel.name}</h3>
+                        <span class="place-type">${hotel.type.charAt(0).toUpperCase() + hotel.type.slice(1)}</span>
+                        <div class="place-details">
+                            <p><span class="rating">⭐ ${hotel.rating}/5</span></p>
+                            <p><span class="distance">📍 ${hotel.distance}</span></p>
+                            <p><span class="price-range">${hotel.priceRange}</span></p>
+                            <p><strong>Rooms:</strong> ${hotel.rooms}</p>
+                            <p><strong>Category:</strong> ${hotel.category.replace('-', ' ').replace(/\b\w/g, l => l.toUpperCase())}</p>
+                        </div>
+                        <div class="speciality">
+                            <strong>About:</strong> ${hotel.speciality}
+                        </div>
+                        <div class="amenities">
+                            ${hotel.amenities.map(amenity => `<span class="amenity">${amenity}</span>`).join('')}
+                        </div>
+                        <div class="contact-info">
+                            <h4>Contact Information</h4>
+                            <p><strong>Phone:</strong> ${hotel.contact}</p>
+                        </div>
+                        <button class="book-btn" onclick="bookRoom('${hotel.name}')">Book Room</button>
+                        <button class="location-btn" onclick="showLocation(${hotel.location.lat}, ${hotel.location.lng}, '${hotel.name}')">View Location</button>
+                    </div>
+                </div>
+            `;
+        }
+
+        function displayPlaces() {
+            const restaurantsGrid = document.getElementById('restaurants-grid');
+            const hotelsGrid = document.getElementById('hotels-grid');
+            
+            restaurantsGrid.innerHTML = restaurants.map(restaurant => createRestaurantCard(restaurant)).join('');
+            hotelsGrid.innerHTML = hotels.map(hotel => createHotelCard(hotel)).join('');
+        }
+
+        function filterPlaces() {
+            const type = document.getElementById('type').value;
+            const cuisine = document.getElementById('cuisine').value;
+            const budget = document.getElementById('budget').value;
+            const distance = document.getElementById('distance').value;
+
+            const allCards = document.querySelectorAll('.place-card');
+            
+            allCards.forEach(card => {
+                let show = true;
+                
+                if (type && !card.dataset.type.includes(type)) show = false;
+                if (cuisine && !card.dataset.cuisine.includes(cuisine) && !card.dataset.category.includes(cuisine)) show = false;
+                if (budget && !card.dataset.budget.includes(budget)) show = false;
+                if (distance && !card.dataset.distance.includes(distance)) show = false;
+                
+                card.style.display = show ? 'block' : 'none';
+            });
+        }
+
+        function bookTable(restaurantName) {
+            alert(`Booking request for ${restaurantName} has been submitted! You will receive a confirmation call shortly.`);
+        }
+
+        function bookRoom(hotelName) {
+            alert(`Room booking request for ${hotelName} has been submitted! You will receive a confirmation call shortly.`);
+        }
+
+        function showLocation(lat, lng, name) {
+            const googleMapsUrl = `https://www.google.com/maps?q=${lat},${lng}`;
+            window.open(googleMapsUrl, '_blank');
+        }
+
+        // Initialize the page
+        document.addEventListener('DOMContentLoaded', function() {
+            displayPlaces();
+        });
+    </script>
+    <script src="main.js"></script>
+</body>
+</html>

@@ -1,0 +1,756 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sacred Temples of Kanchipuram</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            padding: 1rem 0;
+        }
+        
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #8B4513;
+            text-decoration: none;
+        }
+        
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+        
+        .nav-links a {
+            text-decoration: none;
+            color: #333;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+        
+        .nav-links a:hover {
+            color: #8B4513;
+        }
+        
+        .page-header {
+            margin-top: 100px;
+            padding: 3rem 0;
+            text-align: center;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(5px);
+            border-radius: 20px;
+            margin-bottom: 2rem;
+        }
+        
+        .page-header h1 {
+            font-size: 3rem;
+            color: white;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+        
+        .temples-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 2rem;
+            padding: 2rem 0;
+        }
+        
+        .temple-card {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .temple-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+        }
+        
+        .temple-header {
+            background: linear-gradient(45deg, #8B4513, #CD853F);
+            color: white;
+            padding: 1.5rem;
+            position: relative;
+        }
+        
+        .temple-name {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+        
+        .temple-deity {
+            font-size: 1rem;
+            opacity: 0.9;
+        }
+        
+        .temple-content {
+            padding: 1.5rem;
+        }
+        
+        .temple-info {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+        
+        .info-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.9rem;
+        }
+        
+        .info-icon {
+            color: #8B4513;
+        }
+        
+        .temple-description {
+            margin-bottom: 1rem;
+            color: #555;
+            line-height: 1.6;
+        }
+        
+        .temple-highlights {
+            list-style: none;
+            margin-bottom: 1rem;
+        }
+        
+        .temple-highlights li {
+            padding: 0.3rem 0;
+            border-left: 2px solid #8B4513;
+            padding-left: 0.8rem;
+            margin: 0.3rem 0;
+            background: rgba(139, 69, 19, 0.05);
+            font-size: 0.9rem;
+        }
+        
+        .festival-info {
+            background: rgba(139, 69, 19, 0.1);
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 8px;
+            border-left: 4px solid #8B4513;
+        }
+        
+        .festival-info h4 {
+            color: #8B4513;
+            margin-bottom: 0.5rem;
+        }
+        
+        .crowd-indicator {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin: 1rem 0;
+            padding: 0.5rem;
+            background: rgba(255, 193, 7, 0.1);
+            border-radius: 8px;
+        }
+        
+        .crowd-level {
+            padding: 0.2rem 0.8rem;
+            border-radius: 20px;
+            color: white;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+        
+        .crowd-low { background: #28a745; }
+        .crowd-medium { background: #ffc107; color: #333; }
+        .crowd-high { background: #dc3545; }
+        
+        .temple-actions {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+        
+        .btn {
+            padding: 0.8rem 1.5rem;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(45deg, #8B4513, #CD853F);
+            color: white;
+        }
+        
+        .btn-secondary {
+            background: #f8f9fa;
+            color: #333;
+            border: 2px solid #8B4513;
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        .filter-section {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 1.5rem;
+            border-radius: 15px;
+            margin-bottom: 2rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .filter-title {
+            color: #8B4513;
+            margin-bottom: 1rem;
+            font-size: 1.2rem;
+        }
+        
+        .filter-options {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+        
+        .filter-btn {
+            padding: 0.5rem 1rem;
+            border: 2px solid #8B4513;
+            background: white;
+            color: #8B4513;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .filter-btn.active,
+        .filter-btn:hover {
+            background: #8B4513;
+            color: white;
+        }
+        
+        .location-info {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin: 0.5rem 0;
+            color: #666;
+            font-size: 0.9rem;
+        }
+        
+        footer {
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            text-align: center;
+            padding: 2rem;
+            margin-top: 3rem;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .fade-in {
+            animation: fadeIn 0.5s ease-in;
+        }
+        
+        @media (max-width: 768px) {
+            .temples-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .temple-info {
+                grid-template-columns: 1fr;
+            }
+            
+            .temple-actions {
+                flex-direction: column;
+            }
+            
+            .filter-options {
+                justify-content: center;
+            }
+            
+            .page-header h1 {
+                font-size: 2rem;
+            }
+            
+            .nav-links {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="container">
+            <a href="javascript:history.back()" class="logo">🕉 Kanchipuram</a>
+            <ul class="nav-links">
+                <li><a href="javascript:history.back()">Home</a></li>
+                <li><a href="#" onclick="loadPage('restaurants')">Restaurants & Hotels</a></li>
+                <li><a href="#" onclick="loadPage('planner')">Trip Planner</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="container">
+        <section class="page-header">
+            <h1>Sacred Temples of Kanchipuram</h1>
+            <p style="color: #f0f0f0; font-size: 1.2rem;">Discover the divine heritage of thousand temples</p>
+        </section>
+
+        <section class="filter-section">
+            <h3 class="filter-title">Filter Temples</h3>
+            <div class="filter-options">
+                <button class="filter-btn active" onclick="filterTemples('all')">All Temples</button>
+                <button class="filter-btn" onclick="filterTemples('shiva')">Shiva Temples</button>
+                <button class="filter-btn" onclick="filterTemples('vishnu')">Vishnu Temples</button>
+                <button class="filter-btn" onclick="filterTemples('devi')">Devi Temples</button>
+                <button class="filter-btn" onclick="filterTemples('popular')">Most Popular</button>
+            </div>
+        </section>
+
+        <section class="temples-grid" id="templesGrid">
+            <!-- Ekambareswarar Temple -->
+            <div class="temple-card" data-category="shiva popular">
+                <div class="temple-header">
+                    <div class="temple-name">Ekambareswarar Temple</div>
+                    <div class="temple-deity">Lord Shiva (Prithivi Lingam)</div>
+                </div>
+                <div class="temple-content">
+                    <div class="temple-info">
+                        <div class="info-item">
+                            <span class="info-icon">📍</span>
+                            <span>Big Kanchipuram</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-icon">🕐</span>
+                            <span>5:30 AM - 12 PM, 4 PM - 8 PM</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-icon">🚗</span>
+                            <span>3 km from bus stand</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-icon">📏</span>
+                            <span>40 acres temple complex</span>
+                        </div>
+                    </div>
+                    
+                    <div class="location-info">
+                        <span>📍</span>
+                        <span>Coordinates: 12.8450°N, 79.7000°E</span>
+                    </div>
+                    
+                    <div class="temple-description">
+                        One of the Pancha Bhoota Stalas representing Earth element. This vast temple features a 172-feet Raja Gopuram built by Krishnadevaraya. The sacred mango tree is believed to be 3500 years old and bears fruits of four different tastes.
+                    </div>
+                    
+                    <ul class="temple-highlights">
+                        <li>One of the largest temple complexes in Kanchipuram</li>
+                        <li>Ancient mango tree with 3500-year history</li>
+                        <li>Pancha Bhoota Stalam (Earth element)</li>
+                        <li>172-feet high Raja Gopuram</li>
+                    </ul>
+                    
+                    <div class="crowd-indicator">
+                        <span>👥 Current Crowd Level:</span>
+                        <span class="crowd-level crowd-medium">Medium</span>
+                    </div>
+                    
+                    <div class="festival-info">
+                        <h4>🎭 Major Festival: Balalayam</h4>
+                        <p>Celebrated when the temple is under construction or restoration.</p>
+                    </div>
+                    
+                    <div class="temple-actions">
+                        <button class="btn btn-primary" onclick="getDirections('12.8450', '79.7000')">Get Directions</button>
+                        <button class="btn btn-secondary" onclick="viewGallery('ekambareswarar')">View Gallery</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Kailasanathar Temple -->
+            <div class="temple-card" data-category="shiva popular">
+                <div class="temple-header">
+                    <div class="temple-name">Kailasanathar Temple</div>
+                    <div class="temple-deity">Lord Shiva</div>
+                </div>
+                <div class="temple-content">
+                    <div class="temple-info">
+                        <div class="info-item">
+                            <span class="info-icon">📍</span>
+                            <span>Little Kanchipuram</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-icon">🕐</span>
+                            <span>6:00 AM - 12 PM, 4 PM - 8 PM</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-icon">🏛️</span>
+                            <span>8th century AD</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-icon">🎨</span>
+                            <span>Pallava Architecture</span>
+                        </div>
+                    </div>
+                    
+                    <div class="location-info">
+                        <span>📍</span>
+                        <span>Coordinates: 12.8371°N, 79.6964°E</span>
+                    </div>
+                    
+                    <div class="temple-description">
+                        The oldest temple in Kanchipuram built by Pallava king Rajasimha. Famous for its exquisite sandstone architecture and intricate carvings. The temple showcases the finest example of early Dravidian architecture.
+                    </div>
+                    
+                    <ul class="temple-highlights">
+                        <li>Oldest temple in Kanchipuram (8th century)</li>
+                        <li>Built entirely of sandstone</li>
+                        <li>58 small shrines surrounding the main temple</li>
+                        <li>Pallava architectural masterpiece</li>
+                    </ul>
+                    
+                    <div class="crowd-indicator">
+                        <span>👥 Current Crowd Level:</span>
+                        <span class="crowd-level crowd-low">Low</span>
+                    </div>
+                    
+                    <div class="festival-info">
+                        <h4>🎭 Major Festival: Maha Shivaratri</h4>
+                        <p>Special night-long prayers and abhishekam ceremonies held in February/March.</p>
+                    </div>
+                    
+                    <div class="temple-actions">
+                        <button class="btn btn-primary" onclick="getDirections('12.8371', '79.6964')">Get Directions</button>
+                        <button class="btn btn-secondary" onclick="viewGallery('kailasanathar')">View Gallery</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Varadharaja Perumal Temple -->
+            <div class="temple-card" data-category="vishnu popular">
+                <div class="temple-header">
+                    <div class="temple-name">Varadharaja Perumal Temple</div>
+                    <div class="temple-deity">Lord Vishnu (Varadharaja)</div>
+                </div>
+                <div class="temple-content">
+                    <div class="temple-info">
+                        <div class="info-item">
+                            <span class="info-icon">📍</span>
+                            <span>Vishnu Kanchi</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-icon">🕐</span>
+                            <span>6:00 AM - 12 PM, 4 PM - 9 PM</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-icon">🏛️</span>
+                            <span>108 Divya Desam</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-icon">🐘</span>
+                            <span>Temple Elephants</span>
+                        </div>
+                    </div>
+                    
+                    <div class="location-info">
+                        <span>📍</span>
+                        <span>Coordinates: 12.8384°N, 79.7050°E</span>
+                    </div>
+                    
+                    <div class="temple-description">
+                        One of the 108 Divya Desams dedicated to Lord Vishnu. The temple is famous for its massive 100-pillar hall and beautiful gopurams. The deity appears in three forms - standing, sitting, and reclining.
+                    </div>
+                    
+                    <ul class="temple-highlights">
+                        <li>One of 108 Divya Desams</li>
+                        <li>100-pillar mandapam with intricate carvings</li>
+                        <li>Lord appears in three postures</li>
+                        <li>Gold-plated vimanam</li>
+                    </ul>
+                    
+                    <div class="crowd-indicator">
+                        <span>👥 Current Crowd Level:</span>
+                        <span class="crowd-level crowd-high">High</span>
+                    </div>
+                    
+                    <div class="festival-info">
+                        <h4>🎭 Major Festival: Vaikunta Ekadashi</h4>
+                        <p>The famous "Vaikunta Dwaram" opens for devotees in December/January.</p>
+                    </div>
+                    
+                    <div class="temple-actions">
+                        <button class="btn btn-primary" onclick="getDirections('12.8384', '79.7050')">Get Directions</button>
+                        <button class="btn btn-secondary" onclick="viewGallery('varadharaja')">View Gallery</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Kamakshi Amman Temple -->
+            <div class="temple-card" data-category="devi popular">
+                <div class="temple-header">
+                    <div class="temple-name">Kamakshi Amman Temple</div>
+                    <div class="temple-deity">Goddess Kamakshi</div>
+                </div>
+                <div class="temple-content">
+                    <div class="temple-info">
+                        <div class="info-item">
+                            <span class="info-icon">📍</span>
+                            <span>Central Kanchipuram</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-icon">🕐</span>
+                            <span>5:30 AM - 12:30 PM, 4 PM - 8:30 PM</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-icon">🕯️</span>
+                            <span>Shakti Peetham</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-icon">🎭</span>
+                            <span>Adi Shankara Connection</span>
+                        </div>
+                    </div>
+                    
+                    <div class="location-info">
+                        <span>📍</span>
+                        <span>Coordinates: 12.8395°N, 79.7005°E</span>
+                    </div>
+                    
+                    <div class="temple-description">
+                        One of the most important Shakti temples in South India. The goddess is depicted in a sitting posture, which is unique as she's usually shown standing. The temple was renovated by Adi Shankara.
+                    </div>
+                    
+                    <ul class="temple-highlights">
+                        <li>Principal Shakti temple of Kanchipuram</li>
+                        <li>Goddess in unique sitting posture</li>
+                        <li>Connected to Adi Shankara's philosophy</li>
+                        <li>Beautiful golden vimana</li>
+                    </ul>
+                    
+                    <div class="crowd-indicator">
+                        <span>👥 Current Crowd Level:</span>
+                        <span class="crowd-level crowd-medium">Medium</span>
+                    </div>
+                    
+                    <div class="festival-info">
+                        <h4>🎭 Major Festival: Navaratri</h4>
+                        <p>Grand 9-day celebration with special decorations and cultural programs.</p>
+                    </div>
+                    
+                    <div class="temple-actions">
+                        <button class="btn btn-primary" onclick="getDirections('12.8395', '79.7005')">Get Directions</button>
+                        <button class="btn btn-secondary" onclick="viewGallery('kamakshi')">View Gallery</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Kumarakottam Temple -->
+            <div class="temple-card" data-category="other">
+                <div class="temple-header">
+                    <div class="temple-name">Kumarakottam Temple</div>
+                    <div class="temple-deity">Lord Murugan</div>
+                </div>
+                <div class="temple-content">
+                    <div class="temple-info">
+                        <div class="info-item">
+                            <span class="info-icon">📍</span>
+                            <span>Near Ekambareswarar</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-icon">🕐</span>
+                            <span>6:00 AM - 12 PM, 4 PM - 8 PM</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-icon">🦚</span>
+                            <span>Murugan Temple</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-icon">📚</span>
+                            <span>Skanda Purana Connection</span>
+                        </div>
+                    </div>
+                    
+                    <div class="location-info">
+                        <span>📍</span>
+                        <span>Coordinates: 12.8445°N, 79.6995°E</span>
+                    </div>
+                    
+                    <div class="temple-description">
+                        Ancient temple dedicated to Lord Murugan (Skanda). This temple is believed to be where Lord Murugan resided after his victory over the demon Tarakasura. The temple has beautiful sculptures and peaceful ambiance.
+                    </div>
+                    
+                    <ul class="temple-highlights">
+                        <li>Ancient Murugan temple with rich history</li>
+                        <li>Beautiful stone carvings and sculptures</li>
+                        <li>Peaceful temple atmosphere</li>
+                        <li>Connected to Skanda Purana stories</li>
+                    </ul>
+                    
+                    <div class="crowd-indicator">
+                        <span>👥 Current Crowd Level:</span>
+                        <span class="crowd-level crowd-low">Low</span>
+                    </div>
+                    
+                    <div class="festival-info">
+                        <h4>🎭 Major Festival: Skanda Sashti</h4>
+                        <p>Six-day festival celebrating Lord Murugan's victory over demons.</p>
+                    </div>
+                    
+                    <div class="temple-actions">
+                        <button class="btn btn-primary" onclick="getDirections('12.8445', '79.6995')">Get Directions</button>
+                        <button class="btn btn-secondary" onclick="viewGallery('kumarakottam')">View Gallery</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Vaikunta Perumal Temple -->
+            <div class="temple-card" data-category="vishnu">
+                <div class="temple-header">
+                    <div class="temple-name">Vaikunta Perumal Temple</div>
+                    <div class="temple-deity">Lord Vishnu (Vaikuntanatha)</div>
+                </div>
+                <div class="temple-content">
+                    <div class="temple-info">
+                        <div class="info-item">
+                            <span class="info-icon">📍</span>
+                            <span>Little Kanchipuram</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-icon">🕐</span>
+                            <span>6:00 AM - 12 PM, 4 PM - 8 PM</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-icon">🏛️</span>
+                            <span>8th Century Pallava</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-icon">🎨</span>
+                            <span>Historical Sculptures</span>
+                        </div>
+                    </div>
+                    
+                    <div class="location-info">
+                        <span>📍</span>
+                        <span>Coordinates: 12.8375°N, 79.6970°E</span>
+                    </div>
+                    
+                    <div class="temple-description">
+                        Built by Pallava king Nandivarman II, this temple is unique for its historical sculptures depicting Pallava dynasty history. The three-storied vimana shows Lord Vishnu in standing, sitting, and reclining postures.
+                    </div>
+                    
+                    <ul class="temple-highlights">
+                        <li>Unique three-storied structure</li>
+                        <li>Historical sculptures of Pallava kings</li>
+                        <li>Lord Vishnu in three different postures</li>
+                        <li>Excellent example of Pallava architecture</li>
+                    </ul>
+                    
+                    <div class="crowd-indicator">
+                        <span>👥 Current Crowd Level:</span>
+                        <span class="crowd-level crowd-low">Low</span>
+                    </div>
+                    
+                    <div class="festival-info">
+                        <h4>🎭 Major Festival: Panguni Brahmotsavam</h4>
+                        <p>Annual festival in March-April with processional celebrations.</p>
+                    </div>
+                    
+                    <div class="temple-actions">
+                        <button class="btn btn-primary" onclick="getDirections('12.8375', '79.6970')">Get Directions</button>
+                        <button class="btn btn-secondary" onclick="viewGallery('vaikunta')">View Gallery</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2024 Kanchipuram Temple Guide. Experience the divine heritage of Tamil Nadu.</p>
+            <p>🙏 Visit responsibly and respect temple traditions</p>
+        </div>
+    </footer>
+
+    <script>
+        function filterTemples(category) {
+            const cards = document.querySelectorAll('.temple-card');
+            const buttons = document.querySelectorAll('.filter-btn');
+            
+            // Update active button
+            buttons.forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            // Filter cards
+            cards.forEach(card => {
+                if (category === 'all' || card.dataset.category.includes(category)) {
+                    card.style.display = 'block';
+                    card.classList.add('fade-in');
+                } else {
+                    card.style.display = 'none';
+                    card.classList.remove('fade-in');
+                }
+            });
+        }
+        
+        function getDirections(lat, lng) {
+            // Open Google Maps with directions
+            const url = `https://www.google.com/maps/dir/?api=1&destination=${lat},${lng}`;
+            window.open(url, '_blank');
+        }
+        
+        function viewGallery(temple) {
+            // Placeholder for gallery functionality
+            alert(`Viewing gallery for ${temple}`);
+        }
+        function loadPage(page) {
+            // Placeholder for loading different pages
+            alert(`Loading ${page} page...`);
+        }                           
+    </script>
+</body>
+</html>
+<!-- End of temples.html -->

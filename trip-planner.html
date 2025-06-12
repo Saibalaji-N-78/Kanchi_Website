@@ -1,0 +1,1111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kanchipuram - Trip Planner & Login</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 50%, #fecfef 100%);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header Styles */
+        header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 1rem 0;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="40" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="2"/></svg>') repeat;
+            animation: float 20s infinite linear;
+            pointer-events: none;
+        }
+
+        @keyframes float {
+            0% { transform: translateX(-100px) translateY(-100px); }
+            100% { transform: translateX(100px) translateY(100px); }
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: relative;
+            z-index: 10;
+        }
+
+        .logo {
+            font-size: 2rem;
+            font-weight: bold;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+        }
+
+        .nav-links a:hover {
+            background: rgba(255,255,255,0.2);
+            transform: translateY(-2px);
+        }
+
+        .login-btn {
+            background: linear-gradient(45deg, #ff6b6b, #ee5a24);
+            color: white;
+            border: none;
+            padding: 0.7rem 1.5rem;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+
+        .login-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+        }
+
+        /* Page Display */
+        .page {
+            display: none;
+            padding: 2rem 0;
+            min-height: calc(100vh - 80px);
+        }
+
+        .page.active {
+            display: block;
+        }
+
+        /* Trip Planner Styles */
+        .trip-planner {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: rgba(255,255,255,0.95);
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            backdrop-filter: blur(10px);
+        }
+
+        .trip-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .trip-header h1 {
+            color: #333;
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .trip-form {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .form-group {
+            background: #f8f9fa;
+            padding: 1.5rem;
+            border-radius: 15px;
+            border: 2px solid transparent;
+            transition: all 0.3s ease;
+        }
+
+        .form-group:hover {
+            border-color: #667eea;
+            transform: translateY(-2px);
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-group input:focus, .form-group select:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .checkbox-group {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .checkbox-item input[type="checkbox"] {
+            width: auto;
+        }
+
+        .generate-btn {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 25px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: block;
+            margin: 2rem auto;
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
+        }
+
+        .generate-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(102, 126, 234, 0.4);
+        }
+
+        .trip-summary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 2rem;
+            border-radius: 15px;
+            margin-top: 2rem;
+            display: none;
+        }
+
+        .trip-summary.show {
+            display: block;
+            animation: slideIn 0.5s ease;
+        }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .day-plan {
+            background: rgba(255,255,255,0.1);
+            margin: 1rem 0;
+            padding: 1.5rem;
+            border-radius: 10px;
+            border-left: 4px solid #ffd700;
+        }
+
+        .day-title {
+            font-size: 1.3rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+            color: #ffd700;
+        }
+
+        .activity {
+            display: flex;
+            align-items: center;
+            margin: 0.5rem 0;
+            padding: 0.5rem;
+            background: rgba(255,255,255,0.05);
+            border-radius: 5px;
+        }
+
+        .activity-time {
+            font-weight: bold;
+            margin-right: 1rem;
+            color: #ffd700;
+        }
+
+        /* Login Page Styles */
+        .login-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: calc(100vh - 80px);
+            padding: 2rem;
+        }
+
+        .login-form {
+            background: rgba(255,255,255,0.95);
+            padding: 3rem;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            backdrop-filter: blur(10px);
+            width: 100%;
+            max-width: 400px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .login-form::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+        }
+
+        .login-form h2 {
+            text-align: center;
+            margin-bottom: 2rem;
+            color: #333;
+            font-size: 2rem;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .login-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .login-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .login-group input {
+            width: 100%;
+            padding: 0.75rem;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .login-group input:focus {
+            outline: none;
+            border-color: #667eea;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.2);
+        }
+
+        .login-submit {
+            width: 100%;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            padding: 1rem;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-bottom: 1rem;
+        }
+
+        .login-submit:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.3);
+        }
+
+        .login-links {
+            text-align: center;
+        }
+
+        .login-links a {
+            color: #667eea;
+            text-decoration: none;
+            margin: 0 1rem;
+            transition: color 0.3s ease;
+        }
+
+        .login-links a:hover {
+            color: #764ba2;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+            
+            .trip-form {
+                grid-template-columns: 1fr;
+            }
+            
+            .checkbox-group {
+                grid-template-columns: 1fr;
+            }
+
+            .login-form {
+                padding: 2rem;
+                margin: 1rem;
+            }
+        }
+
+        /* Animations */
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <nav class="container">
+            <div class="logo">🕉️ Kanchipuram</div>
+            <ul class="nav-links">
+                <li><a href="#" onclick="showPage('home')">Home</a></li>
+                <li><a href="#" onclick="showPage('temples')">Temples</a></li>
+                <li><a href="#" onclick="showPage('restaurants')">Restaurants</a></li>
+                <li><a href="#" onclick="showPage('planner')">Trip Planner</a></li>
+            </ul>
+            <button class="login-btn" onclick="showPage('login')">Login</button>
+        </nav>
+    </header>
+
+    <!-- Trip Planner Page -->
+    <div id="planner" class="page active">
+        <div class="container">
+            <div class="trip-planner">
+                <div class="trip-header">
+                    <h1>🗓️ Plan Your Sacred Journey</h1>
+                    <p>Create your perfect pilgrimage to the temple city of Kanchipuram</p>
+                </div>
+
+                <form class="trip-form" id="tripForm">
+                    <div class="form-group">
+                        <label for="startDate">📅 Start Date</label>
+                        <input type="date" id="startDate" name="startDate" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="endDate">📅 End Date</label>
+                        <input type="date" id="endDate" name="endDate" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="budget">💰 Budget (₹)</label>
+                        <select id="budget" name="budget">
+                            <option value="low">Budget Friendly (₹2,000-5,000)</option>
+                            <option value="medium">Moderate (₹5,000-10,000)</option>
+                            <option value="high">Luxury (₹10,000+)</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="groupSize">👥 Group Size</label>
+                        <input type="number" id="groupSize" name="groupSize" min="1" max="20" value="2">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="accommodation">🏨 Accommodation Preference</label>
+                        <select id="accommodation" name="accommodation">
+                            <option value="hotel">Hotel</option>
+                            <option value="guest-house">Guest House</option>
+                            <option value="dharamshala">Dharamshala</option>
+                            <option value="resort">Resort</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="transport">🚗 Transportation</label>
+                        <select id="transport" name="transport">
+                            <option value="own">Own Vehicle</option>
+                            <option value="taxi">Taxi/Cab</option>
+                            <option value="auto">Auto Rickshaw</option>
+                            <option value="public">Public Transport</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group" style="grid-column: 1/-1;">
+                        <label>🛕 Select Temples to Visit</label>
+                        <div class="checkbox-group">
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="ekambareswarar" name="temples" value="ekambareswarar" checked>
+                                <label for="ekambareswarar">Ekambareswarar Temple</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="kailasanathar" name="temples" value="kailasanathar" checked>
+                                <label for="kailasanathar">Kailasanathar Temple</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="kamakshi" name="temples" value="kamakshi" checked>
+                                <label for="kamakshi">Kamakshi Amman Temple</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="varadharaja" name="temples" value="varadharaja">
+                                <label for="varadharaja">Varadharaja Perumal Temple</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="vaikuntha" name="temples" value="vaikuntha">
+                                <label for="vaikuntha">Vaikuntha Perumal Temple</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="ulagalantha" name="temples" value="ulagalantha">
+                                <label for="ulagalantha">Ulagalantha Perumal Temple</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group" style="grid-column: 1/-1;">
+                        <label>🍽️ Food Preferences</label>
+                        <div class="checkbox-group">
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="vegetarian" name="food" value="vegetarian" checked>
+                                <label for="vegetarian">Vegetarian</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="south-indian" name="food" value="south-indian" checked>
+                                <label for="south-indian">South Indian</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="local-cuisine" name="food" value="local-cuisine" checked>
+                                <label for="local-cuisine">Local Specialties</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="street-food" name="food" value="street-food">
+                                <label for="street-food">Street Food</label>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+
+                <button class="generate-btn pulse" onclick="generateTripPlan()">
+                    ✨ Generate My Sacred Journey
+                </button>
+
+                <div class="trip-summary" id="tripSummary">
+                    <!-- Trip plan will be generated here -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Login Page -->
+    <div id="login" class="page">
+        <div class="login-container">
+            <form class="login-form" id="loginForm">
+                <h2>🕉️ Sacred Login</h2>
+                
+                <div class="login-group">
+                    <label for="username">👤 Username/Email</label>
+                    <input type="text" id="username" name="username" required>
+                </div>
+
+                <div class="login-group">
+                    <label for="password">🔐 Password</label>
+                    <input type="password" id="password" name="password" required>
+                </div>
+
+                <button type="submit" class="login-submit">Login</button>
+
+                <div class="login-links">
+                    <a href="#" onclick="showRegister()">Create Account</a>
+                    <a href="#" onclick="showForgotPassword()">Forgot Password?</a>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Page Navigation
+        function showPage(pageId) {
+            const pages = document.querySelectorAll('.page');
+            pages.forEach(page => page.classList.remove('active'));
+            document.getElementById(pageId).classList.add('active');
+        }
+
+        // Trip Planner Logic
+        function generateTripPlan() {
+            const form = document.getElementById('tripForm');
+            const formData = new FormData(form);
+            
+            const startDate = new Date(formData.get('startDate'));
+            const endDate = new Date(formData.get('endDate'));
+            const days = Math.ceil((endDate - startDate) / (1000 * 60 * 60 * 24)) + 1;
+            
+            const selectedTemples = Array.from(document.querySelectorAll('input[name="temples"]:checked'))
+                .map(cb => cb.value);
+            
+            const budget = formData.get('budget');
+            const groupSize = parseInt(formData.get('groupSize'));
+            const accommodation = formData.get('accommodation');
+            const transport = formData.get('transport');
+
+            const tripPlan = createTripPlan(days, selectedTemples, budget, groupSize, accommodation, transport, startDate);
+            displayTripPlan(tripPlan);
+        }
+
+        function createTripPlan(days, temples, budget, groupSize, accommodation, transport, startDate) {
+            const templeData = {
+                ekambareswarar: {
+                    name: "Ekambareswarar Temple",
+                    time: "2-3 hours",
+                    bestTime: "6:00 AM - 8:00 AM or 5:00 PM - 7:00 PM",
+                    specialty: "Prithvi Lingam, 1000-pillar hall"
+                },
+                kailasanathar: {
+                    name: "Kailasanathar Temple",
+                    time: "1-2 hours", 
+                    bestTime: "7:00 AM - 9:00 AM",
+                    specialty: "Oldest temple, Pallava architecture"
+                },
+                kamakshi: {
+                    name: "Kamakshi Amman Temple",
+                    time: "1-2 hours",
+                    bestTime: "6:00 AM - 8:00 AM or 4:00 PM - 6:00 PM",
+                    specialty: "Shakti Peetham, Golden chariot"
+                },
+                varadharaja: {
+                    name: "Varadharaja Perumal Temple",
+                    time: "2 hours",
+                    bestTime: "7:00 AM - 10:00 AM",
+                    specialty: "Vishnu temple, Garuda vahana"
+                },
+                vaikuntha: {
+                    name: "Vaikuntha Perumal Temple",
+                    time: "1 hour",
+                    bestTime: "8:00 AM - 10:00 AM",
+                    specialty: "Historical inscriptions"
+                },
+                ulagalantha: {
+                    name: "Ulagalantha Perumal Temple",
+                    time: "1 hour",
+                    bestTime: "7:00 AM - 9:00 AM",
+                    specialty: "Trivikrama form of Vishnu"
+                }
+            };
+
+            const restaurants = [
+                "Saravana Bhavan - Famous South Indian meals",
+                "Hotel Tamil Nadu - Traditional vegetarian food",
+                "Murugan Idli Shop - Best idlis in town",
+                "Ananda Bhavan - Sweets and snacks"
+            ];
+
+            const accommodations = {
+                hotel: ["Hotel Tamil Nadu", "GRT Regency", "Babla Lodge"],
+                'guest-house': ["TTDC Guest House", "PWD Rest House"],
+                dharamshala: ["Ekambareswarar Temple Dharamshala", "Kamakshi Temple Guest House"],
+                resort: ["Sterling Kanchipuram", "Kanchipuram Resort"]
+            };
+
+            let plan = {
+                overview: {
+                    duration: `${days} day${days > 1 ? 's' : ''}`,
+                    temples: temples.length,
+                    budget: budget,
+                    groupSize: groupSize,
+                    startDate: startDate.toDateString()
+                },
+                accommodation: accommodations[accommodation],
+                dailyPlan: []
+            };
+
+            // Create daily itinerary
+            for (let day = 0; day < days; day++) {
+                const currentDate = new Date(startDate);
+                currentDate.setDate(startDate.getDate() + day);
+                
+                let dayPlan = {
+                    day: day + 1,
+                    date: currentDate.toDateString(),
+                    activities: []
+                };
+
+                if (day === 0) {
+                    // Arrival day
+                    dayPlan.activities = [
+                        { time: "10:00 AM", activity: "Arrival and check-in to accommodation" },
+                        { time: "12:00 PM", activity: "Lunch at " + restaurants[0] },
+                        { time: "2:00 PM", activity: "Rest and freshen up" },
+                        { time: "4:00 PM", activity: `Visit ${templeData[temples[0]]?.name || 'Kamakshi Amman Temple'}` },
+                        { time: "6:00 PM", activity: "Evening prayers and aarti" },
+                        { time: "7:30 PM", activity: "Dinner and rest" }
+                    ];
+                } else if (day === days - 1) {
+                    // Departure day
+                    dayPlan.activities = [
+                        { time: "6:00 AM", activity: "Early morning prayers" },
+                        { time: "8:00 AM", activity: "Breakfast and check-out" },
+                        { time: "10:00 AM", activity: "Shopping for silk sarees and souvenirs" },
+                        { time: "12:00 PM", activity: "Lunch" },
+                        { time: "2:00 PM", activity: "Departure" }
+                    ];
+                } else {
+                    // Temple visiting days
+                    const templesForDay = temples.slice((day-1)*2, (day-1)*2 + 2);
+                    dayPlan.activities = [
+                        { time: "5:30 AM", activity: "Early morning wake up" },
+                        { time: "6:00 AM", activity: `Visit ${templeData[templesForDay[0]]?.name || 'Temple'} - ${templeData[templesForDay[0]]?.specialty || ''}` },
+                        { time: "8:30 AM", activity: "Breakfast at local restaurant" },
+                        { time: "10:00 AM", activity: `Visit ${templeData[templesForDay[1]]?.name || 'Second temple'}` },
+                        { time: "12:00 PM", activity: "Lunch and rest" },
+                        { time: "3:00 PM", activity: "Explore local markets and silk shops" },
+                        { time: "5:00 PM", activity: "Evening temple visits for aarti" },
+                        { time: "7:00 PM", activity: "Dinner at " + restaurants[day % restaurants.length] }
+                    ];
+                }
+
+                plan.dailyPlan.push(dayPlan);
+            }
+
+            return plan;
+        }
+
+        function displayTripPlan(plan) {
+            const summaryDiv = document.getElementById('tripSummary');
+            
+            let html = `
+                <h2>🎯 Your Sacred Journey Plan</h2>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-bottom: 2rem;">
+                    <div style="text-align: center; background: rgba(255,255,255,0.1); padding: 1rem; border-radius: 10px;">
+                        <div style="font-size: 2rem;">📅</div>
+                        <div style="font-weight: bold;">${plan.overview.duration}</div>
+                        <div>Duration</div>
+                    </div>
+                    <div style="text-align: center; background: rgba(255,255,255,0.1); padding: 1rem; border-radius: 10px;">
+                        <div style="font-size: 2rem;">🛕</div>
+                        <div style="font-weight: bold;">${plan.overview.temples}</div>
+                        <div>Temples</div>
+                    </div>
+                    <div style="text-align: center; background: rgba(255,255,255,0.1); padding: 1rem; border-radius: 10px;">
+                        <div style="font-size: 2rem;">👥</div>
+                        <div style="font-weight: bold;">${plan.overview.groupSize}</div>
+                        <div>People</div>
+                    </div>
+                    <div style="text-align: center; background: rgba(255,255,255,0.1); padding: 1rem; border-radius: 10px;">
+                        <div style="font-size: 2rem;">💰</div>
+                        <div style="font-weight: bold; text-transform: capitalize;">${plan.overview.budget}</div>
+                        <div>Budget</div>
+                    </div>
+                </div>
+
+                <div style="background: rgba(255,255,255,0.1); padding: 1.5rem; border-radius: 10px; margin-bottom: 2rem;">
+                    <h3 style="color: #ffd700; margin-bottom: 1rem;">🏨 Recommended Accommodations</h3>
+                    ${plan.accommodation.map(acc => `<div style="margin: 0.5rem 0;">• ${acc}</div>`).join('')}
+                </div>
+            `;
+
+            plan.dailyPlan.forEach(day => {
+                html += `
+                    <div class="day-plan">
+                        <div class="day-title">Day ${day.day} - ${day.date}</div>
+                        ${day.activities.map(activity => `
+                            <div class="activity">
+                                <span class="activity-time">${activity.time}</span>
+                                <span>${activity.activity}</span>
+                            </div>
+                        `).join('')}
+                    </div>
+                `;
+            });
+
+            html += `
+                <div style="text-align: center; margin-top: 2rem; padding: 1.5rem; background: rgba(255,255,255,0.1); border-radius: 10px;">
+                    <h3 style="color: #ffd700; margin-bottom: 1rem;">🙏 Important Tips</h3>
+                    <div style="text-align: left;">
+                        • Dress modestly and remove footwear before entering temples<br>
+                        • Carry sufficient water and wear comfortable walking shoes<br>
+                        • Photography may be restricted in some temple areas<br>
+                        • Book accommodations in advance during festival seasons<br>
+                        • Keep some cash handy for offerings and local purchases<br>
+                        • Respect local customs and temple timings
+                    </div>
+                </div>
+            `;
+
+            summaryDiv.innerHTML = html;
+            summaryDiv.classList.add('show');
+            summaryDiv.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // Login functionality
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            
+            // Simple validation (in real app, this would be server-side)
+            if (username && password) {
+                // Store login state
+                sessionStorage.setItem('isLoggedIn', 'true');
+                sessionStorage.setItem('username', username);
+                
+                // Show success message
+                showLoginSuccess();
+                
+                // Redirect to trip planner after 2 seconds
+                setTimeout(() => {
+                    showPage('planner');
+                    updateLoginButton();
+                }, 2000);
+            } else {
+                showLoginError('Please fill in all fields');
+            }
+        });
+
+        function showLoginSuccess() {
+            const form = document.querySelector('.login-form');
+            form.innerHTML = `
+                <div style="text-align: center; padding: 2rem;">
+                    <div style="font-size: 4rem; color: #667eea; margin-bottom: 1rem;">✓</div>
+                    <h2 style="color: #667eea; margin-bottom: 1rem;">Welcome!</h2>
+                    <p style="color: #666;">Login successful. Redirecting to trip planner...</p>
+                </div>
+            `;
+        }
+
+        function showLoginError(message) {
+            const errorDiv = document.createElement('div');
+            errorDiv.style.cssText = `
+                background: #ffe6e6;
+                color: #d63031;
+                padding: 0.75rem;
+                border-radius: 5px;
+                margin-bottom: 1rem;
+                border: 1px solid #fab1a0;
+                text-align: center;
+            `;
+            errorDiv.textContent = message;
+            
+            const form = document.querySelector('.login-form');
+            const existingError = form.querySelector('.error-message');
+            if (existingError) {
+                existingError.remove();
+            }
+            
+            errorDiv.className = 'error-message';
+            form.insertBefore(errorDiv, form.firstChild.nextSibling);
+            
+            setTimeout(() => {
+                errorDiv.remove();
+            }, 3000);
+        }
+
+        function showRegister() {
+            const form = document.querySelector('.login-form');
+            form.innerHTML = `
+                <h2>🆕 Create Account</h2>
+                
+                <div class="login-group">
+                    <label for="newUsername">👤 Username</label>
+                    <input type="text" id="newUsername" name="newUsername" required>
+                </div>
+
+                <div class="login-group">
+                    <label for="email">📧 Email</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+
+                <div class="login-group">
+                    <label for="newPassword">🔐 Password</label>
+                    <input type="password" id="newPassword" name="newPassword" required>
+                </div>
+
+                <div class="login-group">
+                    <label for="confirmPassword">🔐 Confirm Password</label>
+                    <input type="password" id="confirmPassword" name="confirmPassword" required>
+                </div>
+
+                <button type="submit" class="login-submit" onclick="handleRegister()">Create Account</button>
+
+                <div class="login-links">
+                    <a href="#" onclick="showLogin()">Back to Login</a>
+                </div>
+            `;
+        }
+
+        function showForgotPassword() {
+            const form = document.querySelector('.login-form');
+            form.innerHTML = `
+                <h2>🔑 Reset Password</h2>
+                
+                <div class="login-group">
+                    <label for="resetEmail">📧 Enter your email</label>
+                    <input type="email" id="resetEmail" name="resetEmail" required>
+                </div>
+
+                <button type="submit" class="login-submit" onclick="handlePasswordReset()">Send Reset Link</button>
+
+                <div class="login-links">
+                    <a href="#" onclick="showLogin()">Back to Login</a>
+                </div>
+            `;
+        }
+
+        function showLogin() {
+            const form = document.querySelector('.login-form');
+            form.innerHTML = `
+                <h2>🕉️ Sacred Login</h2>
+                
+                <div class="login-group">
+                    <label for="username">👤 Username/Email</label>
+                    <input type="text" id="username" name="username" required>
+                </div>
+
+                <div class="login-group">
+                    <label for="password">🔐 Password</label>
+                    <input type="password" id="password" name="password" required>
+                </div>
+
+                <button type="submit" class="login-submit">Login</button>
+
+                <div class="login-links">
+                    <a href="#" onclick="showRegister()">Create Account</a>
+                    <a href="#" onclick="showForgotPassword()">Forgot Password?</a>
+                </div>
+            `;
+            
+            // Re-attach event listener
+            document.getElementById('loginForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                const username = document.getElementById('username').value;
+                const password = document.getElementById('password').value;
+                
+                if (username && password) {
+                    sessionStorage.setItem('isLoggedIn', 'true');
+                    sessionStorage.setItem('username', username);
+                    showLoginSuccess();
+                    setTimeout(() => {
+                        showPage('planner');
+                        updateLoginButton();
+                    }, 2000);
+                } else {
+                    showLoginError('Please fill in all fields');
+                }
+            });
+        }
+
+        function handleRegister() {
+            const username = document.getElementById('newUsername').value;
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('newPassword').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+            
+            if (!username || !email || !password || !confirmPassword) {
+                showLoginError('Please fill in all fields');
+                return;
+            }
+            
+            if (password !== confirmPassword) {
+                showLoginError('Passwords do not match');
+                return;
+            }
+            
+            if (password.length < 6) {
+                showLoginError('Password must be at least 6 characters');
+                return;
+            }
+            
+            // In a real app, you would send this to your server
+            const form = document.querySelector('.login-form');
+            form.innerHTML = `
+                <div style="text-align: center; padding: 2rem;">
+                    <div style="font-size: 4rem; color: #667eea; margin-bottom: 1rem;">🎉</div>
+                    <h2 style="color: #667eea; margin-bottom: 1rem;">Account Created!</h2>
+                    <p style="color: #666;">Welcome to Kanchipuram Sacred Journey. You can now login with your credentials.</p>
+                    <button onclick="showLogin()" style="background: linear-gradient(45deg, #667eea, #764ba2); color: white; border: none; padding: 0.75rem 1.5rem; border-radius: 10px; margin-top: 1rem; cursor: pointer;">
+                        Go to Login
+                    </button>
+                </div>
+            `;
+        }
+
+        function handlePasswordReset() {
+            const email = document.getElementById('resetEmail').value;
+            
+            if (!email) {
+                showLoginError('Please enter your email address');
+                return;
+            }
+            
+            // In a real app, you would send this to your server
+            const form = document.querySelector('.login-form');
+            form.innerHTML = `
+                <div style="text-align: center; padding: 2rem;">
+                    <div style="font-size: 4rem; color: #667eea; margin-bottom: 1rem;">📧</div>
+                    <h2 style="color: #667eea; margin-bottom: 1rem;">Reset Link Sent!</h2>
+                    <p style="color: #666;">We've sent a password reset link to ${email}. Please check your email.</p>
+                    <button onclick="showLogin()" style="background: linear-gradient(45deg, #667eea, #764ba2); color: white; border: none; padding: 0.75rem 1.5rem; border-radius: 10px; margin-top: 1rem; cursor: pointer;">
+                        Back to Login
+                    </button>
+                </div>
+            `;
+        }
+
+        function updateLoginButton() {
+            const loginBtn = document.querySelector('.login-btn');
+            if (sessionStorage.getItem('isLoggedIn') === 'true') {
+                const username = sessionStorage.getItem('username');
+                loginBtn.textContent = `👤 ${username}`;
+                loginBtn.onclick = logout;
+            }
+        }
+
+        function logout() {
+            sessionStorage.removeItem('isLoggedIn');
+            sessionStorage.removeItem('username');
+            const loginBtn = document.querySelector('.login-btn');
+            loginBtn.textContent = 'Login';
+            loginBtn.onclick = () => showPage('login');
+            showPage('planner');
+        }
+
+        // Set date constraints
+        document.addEventListener('DOMContentLoaded', function() {
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('startDate').min = today;
+            document.getElementById('endDate').min = today;
+            
+            // Set default start date to today
+            document.getElementById('startDate').value = today;
+            
+            // Set default end date to tomorrow
+            const tomorrow = new Date();
+            tomorrow.setDate(tomorrow.getDate() + 1);
+            document.getElementById('endDate').value = tomorrow.toISOString().split('T')[0];
+            
+            // Update end date when start date changes
+            document.getElementById('startDate').addEventListener('change', function() {
+                const startDate = new Date(this.value);
+                const nextDay = new Date(startDate);
+                nextDay.setDate(startDate.getDate() + 1);
+                
+                document.getElementById('endDate').min = nextDay.toISOString().split('T')[0];
+                
+                // If end date is before new start date, update it
+                const endDate = new Date(document.getElementById('endDate').value);
+                if (endDate <= startDate) {
+                    document.getElementById('endDate').value = nextDay.toISOString().split('T')[0];
+                }
+            });
+            
+            // Check if user is already logged in
+            updateLoginButton();
+        });
+
+        // Geolocation functionality for trip planner
+        function getCurrentLocation() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(
+                    function(position) {
+                        const lat = position.coords.latitude;
+                        const lon = position.coords.longitude;
+                        
+                        // Calculate distance to Kanchipuram (approximate coordinates: 12.8342, 79.7036)
+                        const kanchipuramLat = 12.8342;
+                        const kanchipuramLon = 79.7036;
+                        
+                        const distance = calculateDistance(lat, lon, kanchipuramLat, kanchipuramLon);
+                        
+                        // Add distance info to trip plan
+                        const tripSummary = document.getElementById('tripSummary');
+                        if (tripSummary.classList.contains('show')) {
+                            const locationInfo = document.createElement('div');
+                            locationInfo.style.cssText = `
+                                background: rgba(255,255,255,0.1);
+                                padding: 1rem;
+                                border-radius: 10px;
+                                margin-top: 1rem;
+                                text-align: center;
+                            `;
+                            locationInfo.innerHTML = `
+                                <h4 style="color: #ffd700; margin-bottom: 0.5rem;">📍 Distance from your location</h4>
+                                <p>Approximately ${distance.toFixed(1)} km to Kanchipuram</p>
+                                <p style="font-size: 0.9em; margin-top: 0.5rem;">
+                                    Estimated travel time: ${Math.round(distance / 50)} - ${Math.round(distance / 30)} hours by car
+                                </p>
+                            `;
+                            tripSummary.appendChild(locationInfo);
+                        }
+                    },
+                    function(error) {
+                        console.log('Location access denied or unavailable');
+                    }
+                );
+            }
+        }
+
+        function calculateDistance(lat1, lon1, lat2, lon2) {
+            const R = 6371; // Radius of the Earth in kilometers
+            const dLat = (lat2 - lat1) * Math.PI / 180;
+            const dLon = (lon2 - lon1) * Math.PI / 180;
+            const a = 
+                Math.sin(dLat/2) * Math.sin(dLat/2) +
+                Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) * 
+                Math.sin(dLon/2) * Math.sin(dLon/2);
+            const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+            const distance = R * c;
+            return distance;
+        }
+
+        // Enhanced trip generation with location
+        const originalGenerateTrip = generateTripPlan;
+        generateTripPlan = function() {
+            originalGenerateTrip();
+            
+            // Get user location after generating trip
+            setTimeout(() => {
+                getCurrentLocation();
+            }, 1000);
+        };
+    </script>
+    <script src="main.js"></script>
+</body>
+</html>
